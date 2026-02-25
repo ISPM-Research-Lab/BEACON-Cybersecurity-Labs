@@ -1,0 +1,221 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% HYPERRIDE Reporting Template
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[letterpaper,12pt]{report}
+\usepackage[pass]{geometry}
+\usepackage{hyperride}		% HYPERRIDE specific definitions and styles  
+\usepackage[utf8]{inputenc}	% UTF8 package
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}		% common special chars
+\usepackage{amsmath}		% math formula
+\usepackage{fancybox}
+\usepackage{anyfontsize}	% fonts
+\usepackage{lipsum}
+\usepackage{float}
+\usepackage[normalem]{ulem}
+\usepackage{cleveref}
+\usepackage[printonlyused]{acronym}
+\hypersetup{
+	pdftitle={Beacon Network Security Labs: Evil Twin Attack Detection Lab Setup},
+	pdfauthor={[Jordan Whyte, Gaby Dagher, Dylan Gresham]},
+	pdfkeywords={Beacon Labs, Evil Twin, Attack Detection, Network Security},
+}
+
+\usepackage{subfigure}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{soul}
+\sethlcolor{lightgray}
+\usepackage[export]{adjustbox}
+\usepackage{mdframed}
+\usepackage{pdfpages}
+\usepackage{comment}
+\usepackage{multirow,array}
+\def\todo#1{{\color{hyperridered}\textbf{TODO:} ``#1''}}
+\def\hyperride{HYPERRIDE}
+\usepackage{mdframed}
+\definecolor{lightblue}{rgb}{0.93, 0.95, 1.0}
+
+\graphicspath{ {graphics/} }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Definitions
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\includepdf[pages=1]{./graphics/Beacon_NS_Module_Page.pdf}
+
+\mdfdefinestyle{code}{%
+    linecolor=black,
+    outerlinewidth=2pt,
+    %roundcorner=20pt,
+    innertopmargin=4pt,
+    innerbottommargin=4pt,
+    innerrightmargin=4pt,
+    innerleftmargin=4pt,
+        leftmargin = 4pt,
+        rightmargin = 4pt
+    backgroundcolor=black!10
+    }%
+
+\setcounter{tocdepth}{5}
+\setcounter{secnumdepth}{5}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% URL style same as regular text
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	
+\urlstyle{same}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Deliverable Information
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Project Meta Information
+\ProjectFullTitle{Beacon Network Security Labs: Evil Twin Attack Detection Lab Setup}
+\ProjectAcronym{HYPERRIDE}
+\ProjectRefNo{957788}
+
+% Report Number, use either "1", "2", or "3" for the corresponding reporting period
+\delivNumber{0}
+
+% Period covered by the report
+\delivFrom{dd/mm/yyyy}
+\delivTo{dd/mm/yyyy}
+
+% Report Responsible Partner
+\delivResponsible{AIT Austrian Institute of Technology (AIT)} 
+
+% Report Version, Contractual and Actual Date, Dissemination Level, Type
+\delivVersion{vn.n}
+\ContractualDate{dd/mm/yyyy}
+\ActualDate{dd/mm/yyyy}
+
+% List of Main Authors (usually from the responsible partner)
+\delivAuthor{[Jordan Whyte, Gaby Dagher, Dylan Gresham]}
+
+% List of Co-Authors (all other co-authors should be listed here)
+\delivFPAuthor{[]}
+
+% Report Status
+\delivStatus{d} %% d = draft, f = final, s = submitted
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Change Log
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\istChange{dd/mm/yyyy}{v1.0}{Name (Partner short name)}{Draft report template}
+\istChange{}{}{}{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Cover Page
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\makecover
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Table of Contents
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\clearpage
+\fancypagestyle{plain}{}
+\settableofcontents
+\tableofcontents
+\clearpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Overview
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\section*{Overview}\label{sec:work-carried-out}
+\addcontentsline{toc}{section}{Overview}
+
+Guide for setting up the Virtual Machines for the Off-Path TCP and Evil Twin labs.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Virtual Machine Setup
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Virtual Machine Setup}\label{sec:Virtual-Machine-Setup}
+\addcontentsline{toc}{section}{Virtual Machine Setup}
+
+For all virtual machines (VMs), it is recommended to allocate at least 15 GB of storage and 2 GB of memory.
+
+\subsection*{Virtual Machine Software Installation}\label{sec:Virtual-Machine-Software-Installation}
+\addcontentsline{toc}{subsection}{Virtual Machine Software Installation}
+
+VirtualBox will be the virtual machine software that is used to open the VM images and complete the lab. It is possible to complete the lab with other virtual machine software but it has been untested and so support for other virtual machine software will not be included in this lab document at this point in time.
+
+Begin by downloading Oracle's VirtualBox software. The download links for VirtualBox can be found at the below website.
+
+\url{https://download.virtualbox.org/virtualbox/7.0.18/VirtualBox-7.0.18-162988-Win.exe}
+
+\subsubsection*{Windows Setup}\label{sec:Virtual-Machine-Windows-Setup}
+\addcontentsline{toc}{subsubsection}{Windows Setup}
+
+Select the hyperlink titled "Windows hosts" under the "VirtualBox x.x.xx platform packages" to begin the installation of the latest version of VirtualBox. This lab was created when VirtualBox 7.0.18 was the latest release, however, the steps provided should still apply to future versions of VirtualBox as well, the images shown may not be identical, however.
+
+Once the download has completed, run the downloaded installer. The file name should be "VirtualBox-<version\_number>-Win.exe".
+
+Run through the installer without changing anything. At the end, make sure the checkbox is selected to "Start Oracle VM VirtualBox x.x.xx after installation" then click the "Finish" button to complete the installation and open VirtualBox.
+
+\subsubsection*{Linux Setup}\label{sec:Virtual-Machine-Linux-Setup}
+\addcontentsline{toc}{subsubsection}{Linux Setup}
+
+Select the hyperlink titled "Linux distributions" under the "VirtualBox <version\_number> platform packages" to navigate to the page containing Oracle's instructions for distribution specific instructions for downloading and installing VirtualBox.
+
+Find your distribution and follow the instructions Oracle has provided.
+
+If your distribution isn't shown on the website, please look into distribution specific instructions for your Linux distro. For example, if you are using Arch Linux, there is a VirtualBox page on the ArchWiki that provides an installation guide.
+
+\subsection*{Evil Twin Lab Virtual Machine}\label{sec:Evil-Twin-Lab-Virtual-Machine}
+\addcontentsline{toc}{subsection}{Evil Twin Lab Virtual Machine}
+
+The Evil Twin Detection Lab only requires one VM.
+
+\subsubsection*{Setting up the Mininet Virtual Machine Instance}\label{sec:Virtual-Machine-Setting-up-the-Mininet-Virtual-Machine-Instance}
+\addcontentsline{toc}{subsubsection}{Setting up the Mininet Virtual Machine Instance}
+
+To begin, first download the virtual machine image titled "Mininet.ova" from the link below. The downloading may take a few minutes as the image is 3.8 GB in size.
+
+\url{https://drive.google.com/drive/u/1/folders/1Rp3QdxzPIryTyq3ba7Mzk307flV88JNd}
+
+Once the image file is downloaded, open VirtualBox if it's not open already. The window that pops up should be titled "Oracle VM VirtualBox Manager" and should look similar to Figure~\ref{fig:VirtualBox_Manager} on page~\pageref{fig:VirtualBox_Manager}. This window will be where we setup the virtual machine that will be used in this lab.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.9\columnwidth]{graphics/evil-twin_graphics/oracle_vm_virtualbox_manager.png}
+    \caption{VirtualBox Manager}
+    \label{fig:VirtualBox_Manager}
+\end{figure}
+
+From the VirtualBox Manager, click the "Import" button, found either on the home page under the Tools banner or in the menu bar under File > Import Appliance. This should open a new window that looks like Figure~\ref{fig:Import_Virtual_Appliance} on page~\pageref{fig:Import_Virtual_Appliance}.
+
+Click the yellow folder icon with a green arrow pointing upwards on the middle-right side of the window to open your operating system's file picker. In this file picker, navigate to where you downloaded the virtual machine .ova image and select "Mininet.ova" and then select "Open."
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.9\columnwidth]{graphics/evil-twin_graphics/import_virtual_appliance.png}
+    \caption{Import Virtual Appliance Window}
+    \label{fig:Import_Virtual_Appliance}
+\end{figure}
+
+The Mininet VM image should now be imported and appear on the left side of the VirtualBox Manager. To start the Mininet VM, select it from the list of virtual machines on the left side of the VirtualBox Manager and either double click it or, click the green "Start" button as shown in Figure~\ref{fig:VM_Start_Button} on page~\pageref{fig:VM_Start_Button}.
+
+\begin{figure}[!bh]
+    \centering
+    \includegraphics[width=0.3\columnwidth]{graphics/evil-twin_graphics/vm_start_button.png}
+    \caption{The Start button for VM instances}
+    \label{fig:VM_Start_Button}
+\end{figure}
+
+The password for the virtual machine is the same as the username.
+
+\bibliography{References}
+\bibliographystyle{plain}
+
+\end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

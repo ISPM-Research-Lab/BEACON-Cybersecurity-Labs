@@ -6,7 +6,7 @@
 
 This lab explores security vulnerabilities surrounding Service Workers that allow an attacker to take control of a website and service worker. Lab participants will implement a DOM-XSS attack and SW-XSS attack and learn about Java Script web workers. 
 
-## [Subdomain Takeover Attack Lab](/Web%20Security/Subdomain%20Takeover%20Attack/)
+## [Subdomain Takeover Attack Lab](/Web%20Security/Subdomain%20Takeover/)
 
 ![Subdomain Takeover Attack Lab image.](/.images/web-security/subdomain.png)
 

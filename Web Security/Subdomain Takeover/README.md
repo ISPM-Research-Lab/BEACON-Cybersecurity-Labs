@@ -1,4 +1,4 @@
-# [BEACON Labs - Web Security: Subdomain Takeover Attack Lab]
+# [BEACON Labs - Web Security: Subdomain Takeover Attack Lab](https://sites.google.com/boisestate.edu/beacon-labs/web-security-labs/subdomain-takeover-attack-lab)
 
 ## Type
 

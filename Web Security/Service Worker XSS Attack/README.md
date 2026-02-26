@@ -23,6 +23,16 @@ In this lab, you will learn about the dangerous Service Worker Cross-Site Script
     - [LaTeX](/Web%20Security/Service%20Worker%20XSS%20Attack/Instructor%20Lab%20Materials/LaTeX):
         - [Instruction Document](/Web%20Security/Service%20Worker%20XSS%20Attack/Instructor%20Lab%20Materials/LaTeX/Instruction-Document/)
         - [Setup Document](/Web%20Security/Service%20Worker%20XSS%20Attack/Instructor%20Lab%20Materials/LaTeX/Setup/)
+- [Auxiliary Learning Materials](/Web%20Security/Service%20Worker%20XSS%20Attack/Auxiliary%20Learning%20Materials/):
+    - [Setup Document](/Web%20Security/Service%20Worker%20XSS%20Attack/Auxiliary%20Learning%20Materials/Beacon_Workshop_WS_Setup_Instructions.pdf)
+    - [Instruction Document](/Web%20Security/Service%20Worker%20XSS%20Attack/Auxiliary%20Learning%20Materials/Beacon_Workshop_WS.pdf)
+    - [Slides](/Web%20Security/Service%20Worker%20XSS%20Attack/Auxiliary%20Learning%20Materials/BEACON-Labs_Workshop-WS.pptx)
+    - [Virtual Machine Images](https://drive.google.com/drive/folders/19hjc2iZTGFC1OyWLpr8P4DVq1M6V3B9-?usp=sharing)
+        - [Defender VM](https://drive.google.com/file/d/1ejB7MsVS5bZ1i3y9uCPC5d9xEY3-DCK7/view?usp=drive_link)
+        - [Attacker VM](https://drive.google.com/file/d/1-TYKEqX8F0NPWAas0bUiKg0YDMEymOOg/view?usp=sharing)
+    - [LaTeX](/Web%20Security/Service%20Worker%20XSS%20Attack/Auxiliary%20Learning%20Materials/LaTeX/):
+        - [Setup](/Web%20Security/Service%20Worker%20XSS%20Attack/Auxiliary%20Learning%20Materials/LaTeX/Setup/)
+        - [Instruction Document](/Web%20Security/Service%20Worker%20XSS%20Attack/Auxiliary%20Learning%20Materials/LaTeX/Instruction-Document/)
 
 ## Source Paper
 

@@ -16,6 +16,7 @@ In the realm of the Android ecosystem, one relevant threat is posed by phishing 
     - [Project Folder](https://drive.google.com/file/d/1ET-04AcvfmmpSW9RafcL5o5jcTqGdRW9/view?usp=drive_link)
     - **Android Studio**: The Android Studio IDE can be downloaded from the [official Android Developer website](https://developer.android.com/studio).
         - Alternatively, Android Studio can be downloaded from [JetBrains Toolbox](https://www.jetbrains.com/toolbox-app/).
+        - If the Nexus 5X device or API 27 version doesn't show as a result, please download Android Studio Ladybug Feature Drop | 2024.2.2 Patch 2 from February 26, 2025 from the [Android Studio Download Archive](https://www.google.com/url?q=https%3A%2F%2Fdeveloper.android.com%2Fstudio%2Farchive&sa=D).
 - [Instructor Lab Materials](/Mobile%20Security/Android%20State%20Inference/Instructor%20Lab%20Materials/):
     - [Instructor Manual](/Mobile%20Security/Android%20State%20Inference/Instructor%20Lab%20Materials/[SIA]%20Lab%20Report%20Teacher.docx)
     - [Instructor Solution Project](https://drive.google.com/file/d/1FqREHQErsRPbYBKCK9hYTcVrSyWm0koP/view?usp=sharing)

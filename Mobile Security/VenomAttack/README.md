@@ -16,6 +16,7 @@ Activity hijacking attacks were once one of the most powerful attacks against An
     - [Project Folder](https://drive.google.com/file/d/1kXQStZ5kajVUfKURNL7jIkBSaIyPjRZD/view?usp=drive_link)
     - **Android Studio**: The Android Studio IDE can be downloaded from the [official Android Developer website](https://developer.android.com/studio).
         - Alternatively, Android Studio can be downloaded from [JetBrains Toolbox](https://www.jetbrains.com/toolbox-app/).
+        - If the Pixel 5 device or API 28 version doesn't show as a result, please download Android Studio Ladybug Feature Drop | 2024.2.2 Patch 2 from February 26, 2025 from the [Android Studio Download Archive](https://www.google.com/url?q=https%3A%2F%2Fdeveloper.android.com%2Fstudio%2Farchive&sa=D).
 - [Instructor Lab Materials](/Mobile%20Security/VenomAttack/Instructor%20Lab%20Materials/):
     - [Lab Manual](/Mobile%20Security/VenomAttack/Instructor%20Lab%20Materials/Lab_Report_Teacher.docx)
     - [Instructor Solution Project](https://drive.google.com/file/d/12GSWIA_NYnMAiXsn3Dlh0NXTnmskIXl-/view?usp=drive_link)

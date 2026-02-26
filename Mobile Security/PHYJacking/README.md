@@ -16,8 +16,7 @@ This exercise implements what is known as Physical Input Hijacking to create uni
     - [Instruction Document](/Mobile%20Security/PHYJacking/Student%20Lab%20Materials/Beacon_MS_AndroidPHYjacking_Lab.pdf)
     - [Report Template](/Mobile%20Security/PHYJacking/Student%20Lab%20Materials/Lab_Report_Template.docx)
     - [Project Folder](https://drive.google.com/file/d/1ACYQ1qE1wGhfaAeTw7Pt6uyXI6C_BEKZ/view?usp=share_link)
-    - **Android Studio**: The Android Studio IDE can be downloaded from the [official Android Developer website](https://developer.android.com/studio).
-        - Alternatively, Android Studio can be downloaded from [JetBrains Toolbox](https://www.jetbrains.com/toolbox-app/).
+    - Android Studio Ladybug Feature Drop | 2024.2.2 Patch 2 from February 26, 2025 can be downloaded from the [Android Studio Download Archive](https://www.google.com/url?q=https%3A%2F%2Fdeveloper.android.com%2Fstudio%2Farchive&sa=D)
 - [Instructor Lab Materials](/Mobile%20Security/PHYJacking/Instructor%20Lab%20Materials/):
     - [Instructor Manual](/Mobile%20Security/PHYJacking/Instructor%20Lab%20Materials/[PHY]%20Lab%20Report%20Teacher.docx)
     - [Instructor Solution Project](https://drive.google.com/file/d/1Rgc14y8aZA1OYiDZ2vHCC7cxBc-o4Hir/view?usp=drive_link)

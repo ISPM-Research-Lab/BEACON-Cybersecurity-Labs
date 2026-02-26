@@ -22,6 +22,14 @@ This exercise implements what is known as Physical Input Hijacking to create uni
     - [Instructor Manual](/Mobile%20Security/PHYJacking/Instructor%20Lab%20Materials/[PHY]%20Lab%20Report%20Teacher.docx)
     - [Instructor Solution Project](https://drive.google.com/file/d/1Rgc14y8aZA1OYiDZ2vHCC7cxBc-o4Hir/view?usp=drive_link)
     - [LaTeX](/Mobile%20Security/PHYJacking/Instructor%20Lab%20Materials/LaTeX/)
+- [Auxiliary Learning Materials](/Mobile%20Security/PHYJacking/Auxiliary%20Learning%20Materials/):
+    - [Setup Document](/Mobile%20Security/PHYJacking/Auxiliary%20Learning%20Materials/Beacon_Workshop_MS_Setup_Instructions.pdf)
+    - [Instruction Document](/Mobile%20Security/PHYJacking/Auxiliary%20Learning%20Materials/Beacon_Workshop_MS.pdf)
+    - [Slides](/Mobile%20Security/PHYJacking/Auxiliary%20Learning%20Materials/BEACON-Labs_Workshop-MS.pptx)
+    - [Project](https://drive.google.com/file/d/17KuEH9aQtD4UuVXMFIOAWq97-_Z-CzXk/view?usp=sharing)
+    - [LaTeX](/Mobile%20Security/PHYJacking/Auxiliary%20Learning%20Materials/LaTeX/):
+        - [Setup Document](/Mobile%20Security/PHYJacking/Auxiliary%20Learning%20Materials/LaTeX/Setup/)
+        - [Instruction Document](/Mobile%20Security/PHYJacking/Auxiliary%20Learning%20Materials/LaTeX/Instruction-Document/)
 
 ## Source Paper
 

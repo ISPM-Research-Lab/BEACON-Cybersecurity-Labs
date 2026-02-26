@@ -20,10 +20,10 @@ The objective of this lab is to identify the different types of reflection based
     - Planning to use this lab in your class? Please fill out the [form](https://github.com/ISPM-Research-Lab/BEACON-Cybersecurity-Labs)
     - [Instructor Manual](/Network%20Security/Middlebox%20Amplification%20Attack/Instructor%20Lab%20Materials/Instructor_Lab_Report.docx)
     - [LaTeX Project](/Network%20Security/Middlebox%20Amplification%20Attack/Instructor%20Lab%20Materials/LaTeX)
-- [Workshop](/Network%20Security/Middlebox%20Amplification%20Attack/Workshop%20Materials):
-    - [Setup Document](/Network%20Security/Middlebox%20Amplification%20Attack/Workshop%20Materials/Beacon_Workshop_NS_Setup_Instructions.pdf)
-    - [Instruction Document](/Network%20Security/Middlebox%20Amplification%20Attack/Workshop%20Materials/Beacon_Workshop_NS.pdf)
-    - [Powerpoint](/Network%20Security/Middlebox%20Amplification%20Attack/Workshop%20Materials/BEACON-Labs_Workshop-NS.pptx)
+- [Auxiliary Learning Materials](/Network%20Security/Middlebox%20Amplification%20Attack/Auxiliary%20Materials):
+    - [Setup Document](/Network%20Security/Middlebox%20Amplification%20Attack/Auxiliary%20Materials/Beacon_Workshop_NS_Setup_Instructions.pdf)
+    - [Instruction Document](/Network%20Security/Middlebox%20Amplification%20Attack/Auxiliary%20Materials/Beacon_Workshop_NS.pdf)
+    - [Powerpoint](/Network%20Security/Middlebox%20Amplification%20Attack/Auxiliary%20Materials/BEACON-Labs_Workshop-NS.pptx)
     - [Virtual Machine Image](https://drive.google.com/file/d/1FWWNZCXi8gSi9SsbiBaMJNuyTAFvbDps/view?usp=drive_link)
 
 ## Source Paper

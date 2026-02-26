@@ -1,0 +1,695 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% HYPERRIDE Reporting Template
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[letterpaper,12pt]{report}
+\usepackage[pass]{geometry}
+\usepackage{istgame}
+\usepackage{xcolor}
+\usepackage{xurl}
+\usepackage{hyperride}		% HYPERRIDE specific definitions and styles
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}	% UTF8 package
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}		% common special chars
+\usepackage{amsmath}		% math formula
+\usepackage{fancybox}
+\usepackage{anyfontsize}	% fonts
+\usepackage{lipsum}
+\usepackage{float}
+\usepackage[normalem]{ulem}
+\usepackage{cleveref}
+\usepackage[printonlyused]{acronym}
+\hypersetup{
+	pdftitle={Beacon Labs - Workshop},
+	pdfauthor={[Dylan Gresham, Gaby Dagher, Jordan Whyte, Gunnar Vittrup, Josh Boyle]},
+	pdfkeywords={Beacon Labs, Workshop, Cybersecurity, Middlebox, TCP Amplification, Network Security, Mobile Security, Web Security, Service Workers, XSS, Cross-Site Scripting, Android Vulnerability},
+}
+\usepackage{booktabs}
+\usepackage{subfigure}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{soul}
+\sethlcolor{lightgray}
+\usepackage[export]{adjustbox}
+\usepackage{mdframed}
+\usepackage{pdfpages}
+\usepackage{comment}
+\usepackage{multirow,array}
+\def\todo#1{{\color{hyperridered}\textbf{TODO:} ``#1''}}
+\def\hyperride{HYPERRIDE}
+\definecolor{lightblue}{rgb}{0.87, 0.94, 1}
+\graphicspath{ {graphics/} }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Definitions
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% stuff for displaying code
+
+% Define the listing package
+\usepackage{listings} % code highlighter
+\usepackage{color} % use color
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+% Customize a bit the look
+\lstset{ %
+  backgroundcolor=\color{white}, % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+  basicstyle=\footnotesize, % the size of the fonts that are used for the code
+  breakatwhitespace=false, % sets if automatic breaks should only happen at whitespace
+  breaklines=true, % sets automatic line breaking
+  captionpos=b, % sets the caption-position to bottom
+  commentstyle=\color{mygreen}, % comment style
+  deletekeywords={...}, % if you want to delete keywords from the given language
+  escapeinside={\%*}{*)}, % if you want to add LaTeX within your code
+  extendedchars=true, % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+  frame=tblr, % adds a frame around the code with line numbers inside the box
+  keepspaces=true, % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  keywordstyle=\color{blue}, % keyword style
+  % language=Octave, % the language of the code
+  morekeywords={*,...}, % if you want to add more keywords to the set
+  numbers=left, % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=5pt, % how far the line-numbers are from the code
+  numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+  rulecolor=\color{black}, % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+  showspaces=false, % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false, % underline spaces within strings only
+  showtabs=false, % show tabs within strings adding particular underscores
+  stepnumber=1, % the step between two line-numbers. If it's 1, each line will be numbered
+  stringstyle=\color{mymauve}, % string literal style
+  tabsize=2, % sets default tabsize to 2 spaces
+  title=\lstname % show the filename of files included with \lstinputlisting; also try caption instead of title
+}
+% END of listing package %
+
+\definecolor{darkgray}{rgb}{.4,.4,.4}
+\definecolor{purple}{rgb}{0.65, 0.12, 0.82}
+
+% Define Javascript language
+\lstdefinelanguage{JavaScript}{
+  keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
+  keywordstyle=\color{blue}\bfseries,
+  ndkeywords={class, export, boolean, throw, implements, import, this},
+  ndkeywordstyle=\color{darkgray}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  morestring=[b]',
+  morestring=[b]"
+}
+
+\lstset{
+  language=JavaScript,
+  extendedchars=true,
+  basicstyle=\footnotesize\ttfamily,
+  showstringspaces=false,
+  showspaces=false,
+  numbers=left,
+  numberstyle=\footnotesize,
+  numbersep=9pt,
+  tabsize=2,
+  breaklines=true,
+  showtabs=false,
+  captionpos=b
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Definitions
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcounter{taskset}
+\setcounter{taskset}{1} % Set the initial value of the taskset counter
+
+\newcounter{action}[taskset]
+\renewcommand{\theaction}{\thesection.\arabic{taskset}.\arabic{action}}
+
+\newcommand{\myaction}[1]{%
+  \refstepcounter{action}%
+  \textbf{Action \theaction: #1}%
+}
+
+
+% CHANGE %'s below to make subsection headings visible/invisible in TOC
+%\newcommand{\xsubsubsection}[1]{\subsection{#1}}
+%\newcommand{\xsubsubsection}[1]{\subsubsection{#1}}
+
+\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{5}
+
+\begin{document}
+
+\includepdf[pages=1]{./graphics/2FP.pdf}
+
+\mdfdefinestyle{code}{%
+    linecolor=black,
+    outerlinewidth=2pt,
+    %roundcorner=20pt,
+    innertopmargin=4pt,
+    innerbottommargin=4pt,
+    innerrightmargin=4pt,
+    innerleftmargin=4pt,
+    leftmargin = 4pt,
+    rightmargin = 4pt
+    backgroundcolor=black!10
+}
+
+\setcounter{tocdepth}{4}
+\setcounter{secnumdepth}{4}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% URL style same as regular text
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	
+\urlstyle{same}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Deliverable Information
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Project Meta Information
+\ProjectFullTitle{Beacon Network Security Labs: Middlebox Amplification Attack Activity}
+\ProjectAcronym{HYPERRIDE}
+\ProjectRefNo{957788}
+
+% Report Number, use either "1", "2", or "3" for the corresponding reporting period
+\delivNumber{0}
+
+% Period covered by the report
+\delivFrom{dd/mm/yyyy}
+\delivTo{dd/mm/yyyy}
+
+% Report Responsible Partner
+\delivResponsible{AIT Austrian Institute of Technology (AIT)} 
+
+% Report Version, Contractual and Actual Date, Dissemination Level, Type
+\delivVersion{vn.n}
+\ContractualDate{dd/mm/yyyy}
+\ActualDate{dd/mm/yyyy}
+
+% List of Main Authors (usually from the responsible partner)
+\delivAuthor{[Jordan Whyte, Gaby Dagher]}
+
+% List of Co-Authors (all other co-authors should be listed here)
+\delivFPAuthor{[]}
+
+% Report Status
+\delivStatus{d} %% d = draft, f = final, s = submitted
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Change Log
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\istChange{dd/mm/yyyy}{v1.0}{Name (Partner short name)}{Draft report template}
+\istChange{}{}{}{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Cover Page
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\makecover
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Table of Contents
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\clearpage
+\fancypagestyle{plain}{}
+\settableofcontents
+\tableofcontents
+\clearpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Overview
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+
+\section*{Overview}\label{sec:work-carried-out-2}
+\addcontentsline{toc}{section}{Overview}
+
+In this workshop, students will explore various attack strategies and vulnerabilities, focusing on network, mobile, and web threats. The hands-on activities will cover:
+
+\begin{itemize}
+    \item \textbf{Reflection-Based Attacks:} Understanding five types of TCP-based reflection attacks and how they differ from traditional UDP-based ancestors.
+    \item \textbf{Mobile Security Exploits:} Examining vulnerabilities within the Android API, including weaknesses in the Android Activity Lifecycle, and implementing a deceptive overlay attack to gain unauthorized access to financial transactions.
+    \item \textbf{Cross-Site Scripting (XSS) and Service Worker Exploits:} Learning about Service Worker Cross-Site Scripting (SW-XSS) attacks, how they escalate traditional XSS threats, and simple strategies to mitigate them.
+\end{itemize}
+
+By the end of this workshop, participants will be able to analyze, implement, and defend against various cyber threats, gaining practical insights into modern attack vectors and security countermeasures.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Setup
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Setup}\label{sec:Setup}
+\addcontentsline{toc}{section}{Setup}
+
+Refer to the distributed setup instruction manual.
+
+\newpage
+\section*{Network Security: Middlebox Amplification Attack}
+\addcontentsline{toc}{section}{Network Security: Middlebox Amplification Attack}
+
+\subsection*{Overview}\label{sec:Overview-Middlebox}
+\addcontentsline{toc}{subsection}{Overview}
+
+\subsubsection*{Objective}
+
+Further understand the 5 types of reflection-based attacks performed in this activity using TCP instead of UDP.
+
+\subsubsection*{TCP-based Reflection Attacks}
+
+Reflection amplification attacks were thought to only be possible through UDP because there was no three-way handshake that took place. However, this type of attack was found to be possible through TCP in 2021 due to the existence of middleboxes, such as firewalls, that capture traffic before the server can respond to it.
+
+Without a three-way handshake, the server should just drop unrecognized packets. Instead, the middlebox attempts to respond to the request before the server sees it. These middleboxes are often firewalls that attempt to respond to forbidden requests with blocked pages, but their response can be large, even up to an infinite number of packets, relative to the one initial request. These attacks seek to exploit that vulnerability.
+
+\subsubsection*{Packet Schemes and Amplification Factors}
+
+Different packet schemes produced different responses from the middleboxes resulting in large or small amplification factors as seen in Figure~\ref{fig:Packet_Type_Response} below.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.7\columnwidth]{graphics/packet_type_response.jpg}
+    \caption{Packet Type Response}
+    \label{fig:Packet_Type_Response}
+\end{figure}
+
+Moreover, the type of forbidden page that was requested produced a different response as demonstrated in Table~\ref{fig:webpage_response}.
+
+\begin{table}[!ht]
+    \centering
+    \resizebox{\linewidth}{!}{%
+    \begin{tabular}{l|rrrrr}
+            \toprule
+            \textbf{URL} & \textbf{SYN} & \textbf{PSH} & \textbf{PSH+ACK} & \textbf{$\langle$ SYN; PSH$\rangle$} & \textbf{$\langle$SYN; PSH+ACK$\rangle$} \\
+            \midrule
+            www.youchange.com & 116,120 & \textbf{67,503} & \textbf{78,830} & \textbf{92,765} & 97,689 \\
+            roxy-palace.com & \textbf{128,843} & 52,168 & 63,080 & 86,010 & 97,213 \\
+            plus.google.com & 39,177 & 27,815 & 24,827 & 54,916 & 63,090 \\
+            bittorrent.com & 33,187 & 19,171 & 24,682 & 34,748 & \textbf{193,754} \\
+            survive.org.uk & 98,038 & 14,600 & 13,060 & 45,353 & 43,927 \\
+            example.com & 28,909 & 15,669 & 15,911 & 46,469 & 27,962 \\
+            \textit{empty} & 65 & 27 & 49 & 42 & \textbf{59} \\
+            \bottomrule
+        \end{tabular}}
+    \caption{Number of IP addresses with amplification factor over 100x for each combination of target URL and packet sequence. Bolded is the maximum value for each sequence.}
+    \label{fig:webpage_response}
+\end{table}
+
+\subsubsection*{Types of Middlebox Amplification}
+
+There are five types of amplifications that can be produced through this method of attack:
+
+\begin{enumerate}
+    \item \textit{Destination Reflection}
+    \begin{enumerate}
+        \item Direct response of static size from the destination.
+        \item Example: 2Mb response to a 1Mb ping.
+    \end{enumerate}
+    \item \textit{Middlebox Reflection}
+    \begin{enumerate}
+        \item Initial ping of packet size 1Mb receiving a block page of static size 10Mb (10x Amplification).
+    \end{enumerate}
+    \item \textit{Destination and Middlebox Reflection}
+    \begin{enumerate}
+        \item A combination of the first two methods: A static size middlebox and destination response.
+    \end{enumerate}
+    \item \textit{Routing Loop Reflection}
+    \begin{enumerate}
+        \item All routers that a packet travels through will produce a middlebox response and loop back to each other.
+        \item Amplification increases by the number of times routers trigger the middlebox.
+    \end{enumerate}
+    \item \textit{Victim-sustained Reflection}
+    \begin{enumerate}
+        \item Packets sent to the victim computer are responded to, prompting another response from the destination.
+        \item Possible to produce an infinite amplification factor.
+    \end{enumerate}
+\end{enumerate}
+
+\subsubsection*{Resources}
+
+Reading the following paper is not mandatory but will provide a deeper understanding of this attack and its outcomes:
+
+\textit{Paper detailing the attack:}
+\url{https://www.usenix.org/system/files/sec21-bock.pdf} $^\text{[\citeauthor{Bock:2021}]}$
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Activity Task Set 1: Amplification Types
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection*{Task Set 1: Amplification Types}\label{sec:Task-Set-Amplification}
+\addcontentsline{toc}{subsection}{Task Set 1: Amplification Types}
+
+\textbf{Objective}
+
+Acquire the ability to accurately identify the amplification type produced by an attack.
+
+\subsubsection*{Task 1.1: Identify the Amplification Type}\label{sec:Task-1.1-Identify-the-Amplification-Type}
+\addcontentsline{toc}{subsubsection}{Task 1.1: Identify the Amplification Type}
+
+Based on the descriptions of the different types of amplifications provided in the Overview section, indicate which type of amplification each diagram below illustrates.
+
+\colorbox{lightblue}{%
+\parbox{\dimexpr\linewidth-2\fboxsep}{%
+\textbf{Action}
+
+1.1.1 - Match the diagrams below to its corresponding type of amplification.
+   }%
+}%
+
+\begin{figure}[!ht]
+    \centering
+    \begin{minipage}{0.49\textwidth}
+        \centering
+        \includegraphics[width=.5\textwidth]{Victim_sustained_reflection.png}
+        
+        \label{fig:Victim_sustained_reflection}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.49\textwidth}
+        \centering
+        \includegraphics[width=.5\textwidth]{Destination_middlebox_reflection.png}
+        
+        \label{fig:Destination_middlebox_reflection}
+    \end{minipage}
+\end{figure}
+
+\bigskip
+
+\bigskip
+
+\begin{figure}[!ht]
+    \centering
+    \begin{minipage}{0.49\textwidth}
+        \centering
+        \includegraphics[width=.5\textwidth]{Middlebox_reflection.png}
+        
+        \label{fig:Middlebox_reflection_1}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.49\textwidth}
+        \centering
+        \includegraphics[width=.5\textwidth]{Destination_reflection.png}
+       
+        \label{fig:Destination_reflection_1}
+    \end{minipage}
+\end{figure}
+
+\bigskip
+
+\bigskip
+
+\begin{figure}[!ht]
+    \centering
+    \begin{minipage}{0.49\textwidth}
+        \includegraphics[width=0.6\textwidth]{Routing_loop.png}
+    
+    \label{fig:Middlebox_reflection_2}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.49\textwidth}
+        \centering
+            \includegraphics[width=.5\textwidth]{graphics/ADMRV.jpg}
+       
+        \label{fig:Destination_reflection_2}
+    \end{minipage}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Activity Task Set 2: MiddleBox Amplification
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection*{Task Set 2: MiddleBox Amplification}\label{sec:Task-2}
+\addcontentsline{toc}{subsection}{Task Set 2: MiddleBox Amplification}
+
+\textbf{Objective}
+
+Classify IP addresses depending on what type of reflection was produced.
+
+\bigskip
+
+This program will not actually send out packets to these IP addresses. The program is simply a simulation of the responses that would likely occur when this attack is executed properly.
+
+\subsubsection*{Task 2.1: Running the Program}\label{sec:Task-2.1-Running-the-Program}
+\addcontentsline{toc}{subsubsection}{Task 2.1: Running the Program}
+
+To start the program, open the "Middlebox-VM" virtual machine. The login credentials are both the word "middlebox" in lowercase. Once logged in, open a terminal and in the home directory execute the following command: \texttt{middlebox}. Figure~\ref{fig:program_start} shows the starting screen when running the program, and Figure~\ref{fig:packet_creation} shows how packets can be altered before being sent out.
+
+\colorbox{lightblue}{%
+\parbox{\dimexpr\linewidth-2\fboxsep}{%
+\textbf{Action}
+
+2.1.1 - Start the program and choose to use 2 packets.
+    }%
+}%
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=1\columnwidth]{graphics/program_start_screen.jpg}
+    \caption{Program start screen}
+    \label{fig:program_start}
+\end{figure}
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=1\columnwidth]{graphics/packet_creation_module.jpg}
+    \caption{Packet creation module with different options for changing that packets that will be sent.}
+    \label{fig:packet_creation}
+\end{figure}
+
+Within the program, you should first craft what kind of packet you want to send out. This requires setting the HTTP header, flags, time to live (TTL), and adjusting the size of the packet and payload to be sent. Using the crafted packet, you can then perform a wide attack, targeted attack, or a traceroute.
+
+If you are unsure of what flags or header to use, hints can be found in Figure~\ref{fig:Packet_Type_Response} and Table~\ref{fig:webpage_response} in the Overview section.
+
+\colorbox{lightblue}{%
+\parbox{\dimexpr\linewidth-2\fboxsep}{%
+\textbf{Action}
+
+2.1.2 - Choose to set the HTTP Header and enter "youchange.com" as the domain name. \\
+2.1.3 - Choose to set the Flag(s) and set the appropriate flags you want to set. \\
+2.1.4 - Choose to set the time to live (TTL) and choose the longest possible time. \\
+2.1.5 - Choose to adjust packet optional size and choose the default size. \\
+2.1.6 - Choose to adjust the packet payload size and choose the default size. \\
+2.1.7 - View your packet configuration and then close the packet configuration once you're satisfied.
+    }%
+}%
+
+\bigskip
+
+\subsubsection*{Task 2.2: Interacting with the Program}\label{sec:Task-2.2-Interacting-with-the-Program}
+\addcontentsline{toc}{subsubsection}{Task 2.2: Interacting with the Program}
+
+A Wide attack will send your packet to all IPs and show how many packets were sent in response. A Targeted attack will allow you to send your packet to one IP and observe how many packets are sent in response.
+
+A traceroute will show the path a packet takes on the way to its destination. This will be useful in identifying what kind of amplification took place. \textbf{Some of the traceroutes will look identical, but based on the number of packets in response you should be able to identify what type of reflection it is, if there is reflection at all. }
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=1\columnwidth]{graphics/all_actions.jpg}
+    \caption{All actions that can be performed in the program.}
+    \label{fig:program_action_list}
+\end{figure}
+
+All tools listed in Figure~\ref{fig:program_action_list} are required to complete the activity with full points.
+
+The following table shows everything that needs to be identified for the quiz.
+
+\begin{center}
+    \begin{tabular}{ |p{0.7\linewidth}|c|c| } 
+         \hline
+         \textbf{Quiz Question} & \textbf{Point Value} & \textbf{Total} \\
+         \hline
+         Which IPs produced amplification? (5x) & 8 & 40 \\ 
+         \hline
+         Which type of amplification is at each IP? (5x) & 5 & 25 \\ 
+         \hline
+         Destination response size & 5 & 5\\
+         \hline
+         Middlebox response size (2x) & 5 & 10\\
+         \hline
+         Number of routers in routing loop & 10 & 10\\
+         \hline
+         How many packets did the victim send in the victim-sustained attack? & 10 & 10\\
+         \hline
+    \end{tabular}
+\end{center}
+
+Keep track of these things as you work through the program. The quiz will ask you these questions and you can gain points for each. (\textit{Hint for the final question:} Assume the victim sent one packet to the server in response to each server packet)
+
+\textit{Remember, not all combinations of packets will result in all attacks being performed. You may need to reconfigure the packet(s) in order to find all of the attacks.}
+
+Each question will have a set number of attempts in case you mistype your answer. Additionally, you can run the program again to generate new IPs for each amplification and attempt to gain a better score.
+
+\colorbox{lightblue}{%
+\parbox{\dimexpr\linewidth-2\fboxsep}{%
+\textbf{Action}
+
+2.2.1 - Complete an IPv4 wide attack and note down the 5 IP addresses that resulted in an amplification attack. If you don't see 5, try a different packet configuration. \\ 
+2.2.2 - For each of the 5 IP addresses, perform a Traceroute and save the results. \\
+2.2.3 - Complete the quiz. \\
+2.2.4 - Open a browser and navigate to the feedback form that's provided to you after completing the quiz. \textbf{Please wait to complete the quiz until completing Task Set 3.} Any and all feedback is greatly appreciated!\\ 
+    }%
+}%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Activity Task Set 3: Game Theory
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection*{Task Set 3: Bayesian Nash Equilibrium }\label{sec:Task-Set-3}
+\addcontentsline{toc}{subsection}{Task Set 3: Bayesian Nash Equilibrium}
+
+\textbf{Objective}
+
+Further comprehend the Bayesian Nash Equilibrium through analysis of a Game Theory table and application of the concept to a hypothetical scenario.
+
+\subsubsection*{Task 3.1: Understanding Bayesian Nash Equilibrium}\label{sec:Task-3.1-Understanding-Bayesian-Nash-Equilibrium}
+\addcontentsline{toc}{subsubsection}{Task 3.1: Understanding Bayesian Nash Equilibrium}
+
+Game theory can be applied to more than just a two party situation. Deciding which action should be taken when there is uncertainty of the other party can be solved with Bayesian Nash Equilibrium. Keep in mind, \textbf{Bayesian Nash equilibrium only works when no one has incentive to change their strategy based on prior beliefs of the other party}.
+
+\bigskip
+
+Bayesian Nash Equilibrium will be demonstrated on Table~\ref{Tab:game_theory_1}, then you will apply it to the made-up scenario following Table~\ref{Tab:game_theory_1}.
+
+\begin{table}[ht]
+    \setlength{\extrarowheight}{2pt}
+    \begin{tabular}{cc|c|c|}
+      & \multicolumn{1}{c}{} & \multicolumn{2}{c}{\color{red}Player 2}\\
+      & \multicolumn{1}{c}{} & \multicolumn{2}{c}{\color{red}A-Type}\\
+      & \multicolumn{1}{c}{} & \multicolumn{1}{c}{\color{red}Left}  & \multicolumn{1}{c}{\color{red}Right} \\\cline{3-4}
+      \multirow{2}*{\color{blue}Player 1}  & \color{blue}Up & $\color{blue}(6,\color{red}2)$ & $\color{blue}(0,\color{red}4)$ \\\cline{3-4}
+      & \color{blue}Down & $\color{blue}(5,\color{red}1)$ & $\color{blue}(-1,\color{red}4)$ \\\cline{3-4}
+    \end{tabular}
+    \begin{tabular}{cc|c|c|}
+      & \multicolumn{1}{c}{} & \multicolumn{2}{c}{\color{red}Player 2}\\
+      & \multicolumn{1}{c}{} & \multicolumn{2}{c}{\color{red}B-Type}\\
+      & \multicolumn{1}{c}{} & \multicolumn{1}{c}{\color{red}Left}  & \multicolumn{1}{c}{\color{red}Right} \\\cline{3-4}
+      \multirow{2}*{}  & \color{blue}Up & $\color{blue}(3,\color{red}4)$ & $\color{blue}(1,\color{red}0)$ \\\cline{3-4}
+      & \color{blue}Down & $\color{blue}(4,\color{red}3)$ & $\color{blue}(2,\color{red}0)$ \\\cline{3-4}
+    \end{tabular}
+\caption{Game Theory Example}
+\label{Tab:game_theory_1}
+\end{table}
+
+There is a chance that Player 1 will be either A-Type or B-Type. We will represent this with the variable $P$. There are still only two options for both players to choose but, Player 2 does not know what type Player 1 is. Furthermore, Player 1 can only see the table corresponding to their type while Player 2 can see both tables.
+
+Player 2 must first see what the dominant strategy is for Player 1 in each scenario. This is quite simple though as with A-Type, Up strictly dominates Down, and for B-Type, Down strictly dominates Up. With this information, the table Player 2 is working with now looks like Table~\ref{Tab:game_theory_2}.
+
+\begin{table}[!bt]
+    \setlength{\extrarowheight}{2pt}
+    \begin{tabular}{cc|c|c|}
+      & \multicolumn{1}{c}{} & \multicolumn{2}{c}{\color{red}Player 2}\\
+      & \multicolumn{1}{c}{} & \multicolumn{2}{c}{\color{red}A-Type}\\
+      & \multicolumn{1}{c}{} & \multicolumn{1}{c}{\color{red}Left}  & \multicolumn{1}{c}{\color{red}Right} \\\cline{3-4}
+      \multirow{2}*{\color{blue}Player 1}  & \color{blue}Up & $\color{blue}(6,\color{red}2)$ & $\color{blue}(0,\color{red}4)$ \\\cline{3-4}
+      & \color{blue}Down &  &  \\\cline{3-4}
+    \end{tabular}
+    \begin{tabular}{cc|c|c|}
+      & \multicolumn{1}{c}{} & \multicolumn{2}{c}{\color{red}Player 2}\\
+      & \multicolumn{1}{c}{} & \multicolumn{2}{c}{\color{red}B-Type}\\
+      & \multicolumn{1}{c}{} & \multicolumn{1}{c}{\color{red}Left}  & \multicolumn{1}{c}{\color{red}Right} \\\cline{3-4}
+      \multirow{2}*{}  & \color{blue}Up &  &  \\\cline{3-4}
+      & \color{blue}Down & $\color{blue}(4,\color{red}3)$ & $\color{blue}(2,\color{red}0)$ \\\cline{3-4}
+    \end{tabular}
+\caption{Game Theory Example}
+\label{Tab:game_theory_2}
+\end{table}
+
+\bigskip
+
+Next we must calculate the utility of each action. What can Player 2 gain if they were to play left or right?
+
+Remember that P is the probability of Player 1 being an A-Type. Thus, $1-P$ is the probability of Player 1 being a B-Type. To calculate the utility of Player 2 playing left, we take the utility from choosing left on both types times the probability of being that type. The same symbolic calculation was done to calculate the utility of Player 2 playing right.
+
+$$\textbf{LEFT: } 2P + 3(1-P)$$
+$$\textbf{RIGHT: }  4P + 0(1-P)$$
+
+By solving an inequality we can see when Player 2 should play left or right.
+
+$$ 2P + 3(1-P) > 4P + 0(1-P) $$
+$$ 2P + 3 - 3P  > 4P $$
+$$ 3 - P > 4P $$
+$$ 3 > 5P $$
+$$ \frac{3}{5} > P $$
+
+So when P is less than $\frac{3}{5}$, Player 2 should play left, but when $P$ is greater than or equal to $\frac{3}{5}$ they should play right.
+
+\subsubsection*{Task 3.2: Applying Bayesian Nash Equilibrium with an Exercise}\label{sec:Task-3.2-Applying-Bayesian-Nash-Equilibrium-With-an-Exercise}
+\addcontentsline{toc}{subsubsection}{Task 3.2: Applying Bayesian Nash Equilibrium with an Exercise}
+
+Use the concepts learned in Task 3.1 to answer the questions in Task 3.2.
+
+\begin{table}[ht]
+    \setlength{\extrarowheight}{2pt}
+    \begin{tabular}{cc|c|c|}
+      & \multicolumn{1}{c}{} & \multicolumn{2}{c}{\color{red}Attacker}\\
+      & \multicolumn{1}{c}{} & \multicolumn{2}{c}{\color{red}A-Type}\\
+      & \multicolumn{1}{c}{} & \multicolumn{1}{c}{\color{red}New Attack}  & \multicolumn{1}{c}{\color{red}Old Attack} \\\cline{3-4}
+      \multirow{2}*{\color{blue}Server}  & \color{blue}No one watching server & $\color{blue}(1,\color{red}5)$ & $\color{blue}(2,\color{red}3)$ \\\cline{3-4}
+      & \color{blue}Someone watching server & $\color{blue}(3,\color{red}4)$ & $\color{blue}(2,\color{red}2)$ \\\cline{3-4}
+    \end{tabular}
+    \begin{tabular}{cc|c|c|}
+      & \multicolumn{1}{c}{} & \multicolumn{2}{c}{\color{red}Attacker}\\
+      & \multicolumn{1}{c}{} & \multicolumn{2}{c}{\color{red}B-Type}\\
+      & \multicolumn{1}{c}{} & \multicolumn{1}{c}{\color{red}New Attack}  & \multicolumn{1}{c}{\color{red}Old Attack} \\\cline{3-4}
+      \multirow{2}*{\color{blue}Server}  & \color{blue}No one watching server & $\color{blue}(2,\color{red}2)$ & $\color{blue}(3,\color{red}3)$ \\\cline{3-4}
+      &\color{blue}Someone watching server & $\color{blue}(1,\color{red}1)$ & $\color{blue}(2,\color{red}1)$ \\\cline{3-4}
+    \end{tabular}
+\caption{Game Theory Task}
+\label{Tab:game_theory_3}
+\end{table}
+
+Let's say that there are two countries that you want to use this new attack on. Country 1 is the primary target and Country 2 is an ally. The server you are attacking is a server positioned on the shared border of the two countries so, there is a chance that it could be administered by either.
+
+You could either use an old attack so that they are unaware of the new vulnerability, but it may be less effective, or, you could use this new attack with which you could do more damage, but be unable to use it in the future as the vulnerability was patched.
+
+The A-Type server is Country One (the primary target), and B-Type is Country Two (the ally). Using these tables, answer the following questions:
+
+\colorbox{lightblue}{%
+\parbox{\dimexpr\linewidth-2\fboxsep}{%
+\textbf{Action}
+
+3.2.1 - Write your inequalities. \\
+3.2.2 - Solve your inequalities. \\
+3.2.3 - Answer the following questions. \\
+\begin{mdframed}[backgroundcolor=black!10,style=code,nobreak=true,align=center,userdefinedwidth=14cm]
+    Which attack should you use if there is a $\frac{1}{2}$ chance the server is owned by country one?
+
+    Which attack should you use if there is a $\frac{1}{3}$ chance the server is owned by country one?
+
+    Which attack should you use if there is a $\frac{1}{4}$ chance the server is owned by country one?
+\end{mdframed}
+\bigskip
+3.2.4 - Navigate back to your browser and complete the survey.
+    }%
+}%
+
+\bigskip
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Summary
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection*{Summary}\label{sec:Sumarry}
+\addcontentsline{toc}{subsection}{Summary}
+
+Reflection based attacks have been common over UDP but, this is the first time they have been possible over TCP. This activity has taught you about the kinds of middlebox reflections and how to identify them.
+
+TCP reflection based attacks are a large vulnerability that has major ramifications across many nations who have a high amount of censorship. To learn the extent of this vulnerability, the paper$^\text{[\citeauthor{Bock:2021}]}$ is listed in both the Overview and References section.
+
+\subsection*{Note}\label{sec:Note}
+\addcontentsline{toc}{subsection}{Note}
+
+One of the domains that is in the paper was deemed inappropriate for educational settings and was changed from its original name to "youchange" to better fit educational settings.
+
+\bibliography{References}
+\bibliographystyle{plain}
+
+\end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

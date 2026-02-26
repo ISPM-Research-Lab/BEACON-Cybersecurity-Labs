@@ -25,6 +25,9 @@ The objective of this lab is to identify the different types of reflection based
     - [Instruction Document](/Network%20Security/Middlebox%20Amplification%20Attack/Auxiliary%20Materials/Beacon_Workshop_NS.pdf)
     - [Powerpoint](/Network%20Security/Middlebox%20Amplification%20Attack/Auxiliary%20Materials/BEACON-Labs_Workshop-NS.pptx)
     - [Virtual Machine Image](https://drive.google.com/file/d/1FWWNZCXi8gSi9SsbiBaMJNuyTAFvbDps/view?usp=drive_link)
+    - [LaTeX](/Network%20Security/Middlebox%20Amplification%20Attack/Auxiliary%20Materials/LaTeX/):
+        - [Setup](/Network%20Security/Middlebox%20Amplification%20Attack/Auxiliary%20Materials/LaTeX/Setup/):
+        - [Instruction Document](/Network%20Security/Middlebox%20Amplification%20Attack/Auxiliary%20Materials/LaTeX/Instruction-Document/):
 
 ## Source Paper
 

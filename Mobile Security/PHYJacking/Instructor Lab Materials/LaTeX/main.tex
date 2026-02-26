@@ -1,0 +1,480 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% HYPERRIDE Reporting Template
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[letterpaper,12pt]{report}
+\usepackage[pass]{geometry}
+%\documentclass[11pt]{report}
+
+\usepackage{hyperride}		% HYPERRIDE specific definitions and styles  
+\usepackage[utf8]{inputenc}	% UTF8 package
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}		% common special chars
+\usepackage{amsmath}		% math formula
+\usepackage{fancybox}
+\usepackage{anyfontsize}	% fonts
+\usepackage{lipsum}
+\usepackage{float}
+\usepackage[normalem]{ulem}
+\usepackage{cleveref}
+\usepackage[printonlyused]{acronym}
+\hypersetup{
+	pdftitle={Beacon Mobile Security Labs: Android Physical Input Hijacking (PHYjacking) Attack Lab},
+	pdfauthor={[Gunnar Vittrup, Gaby Dagher]},
+	pdfkeywords={Periodic Report, European Union (EU), H2020, Project, HYPERRIDE, GA 957788},
+}
+\usepackage{subfigure}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{soul}
+\sethlcolor{lightgray}
+\usepackage[export]{adjustbox}
+\usepackage{mdframed}
+\usepackage{pdfpages}
+\usepackage{comment}
+\usepackage{multirow,array}
+\def\todo#1{{\color{hyperridered}\textbf{TODO:} ``#1''}}
+\def\hyperride{HYPERRIDE}
+
+\graphicspath{ {graphics/} }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Definitions
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+% CHANGE %'s below to make subsection headings visible/invisible in TOC
+%\newcommand{\xsubsubsection}[1]{\subsection{#1}}
+%\newcommand{\xsubsubsection}[1]{\subsubsection{#1}}
+
+\begin{document}
+
+\includepdf[pages=1]{./graphics/FP_PHYjacking.pdf}
+
+\mdfdefinestyle{code}{%
+    linecolor=black,
+    outerlinewidth=2pt,
+    %roundcorner=20pt,
+    innertopmargin=4pt,
+    innerbottommargin=4pt,
+    innerrightmargin=4pt,
+    innerleftmargin=4pt,
+        leftmargin = 4pt,
+        rightmargin = 4pt
+    backgroundcolor=black!10
+    }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% URL style same as regular text
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	
+\urlstyle{same}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Deliverable Information
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Project Meta Information
+\ProjectFullTitle{Beacon Mobile Security Labs: Android Physical Input Hijacking (PHYjacking) Attack Lab}
+\ProjectAcronym{HYPERRIDE}
+\ProjectRefNo{957788}
+
+% Report Number, use either "1", "2", or "3" for the corresponding reporting period
+\delivNumber{0}
+
+% Period covered by the report
+\delivFrom{dd/mm/yyyy}
+\delivTo{dd/mm/yyyy}
+
+% Report Responsible Partner
+\delivResponsible{AIT Austrian Institute of Technology (AIT)} 
+
+% Report Version, Contractual and Actual Date, Dissemination Level, Type
+\delivVersion{vn.n}
+\ContractualDate{dd/mm/yyyy}
+\ActualDate{dd/mm/yyyy}
+
+% List of Main Authors (usually from the responsible partner)
+\delivAuthor{[Gunnar Vittrup, Gaby Dagher]}
+
+% List of Co-Authors (all other co-authors should be listed here)
+\delivFPAuthor{[]}
+
+% Report Status
+\delivStatus{d} %% d = draft, f = final, s = submitted
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Change Log
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\istChange{dd/mm/yyyy}{v1.0}{Name (Partner short name)}{Draft report template}
+\istChange{}{}{}{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Cover Page
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\makecover
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Table of Contents
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\clearpage
+\fancypagestyle{plain}{}
+\settableofcontents
+\tableofcontents
+\clearpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Overview
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Overview}\label{sec:work-carried-out}
+\addcontentsline{toc}{section}{Overview}
+
+\subsection*{Objectives}
+
+Understand conventional attack strategies on mobile devices and some of the vulnerabilities within Android API's, explore the Android Activity Lifecycle and methodologies used to exploit its vulnerabilities, and implement a delusive overlay that navigates a user to a target destination and garner unauthorized access to a wire transfer
+
+\bigskip
+
+Nowadays, most mobile devices are equipped with various hardware interfaces such as touchscreen, fingerprint scanner, camera and microphone to capture inputs from the user. Many mobile apps use these physical interfaces to receive user-input for authentication/authorization operations including one-click login, fingerprint-based payment approval, and \\face/voice unlocking. Our focus on this lab will be to mislead an unsuspecting user with a zero-permission malicious application to feed screen-touch and fingerprint input in order to unintentionally authorize a fund-transfer. This lab is based off of the paper PHYjacking: Physical Input Hijacking for Zero-Permission Authorization Attacks on Android by X. Wang, S. Shi, Y. Chen, and W. Lau $^\text{[\citeauthor{wang2022phyjacking}]}$.
+
+\subsection*{Reading}
+
+This lab is based on a paper by Xianbo Wang, Shangcheng Shi, Yikang Chen, and Wing Cheung Lau $^\text{[\citeauthor{wang2022phyjacking}]}$, and was published in the Network and Distributed System Security Symposium. Reading the original paper is not necessary but can help if you would like to learn more about this attack.
+
+X. Wang, S. Shi, Y. Chen, W. Lau, "PHYjacking: Physical Input Hijacking for Zero-Permission Authorization Attacks on Android", 2021 $^\text{[\citeauthor{wang2022phyjacking}]}$.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Setup
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Setup}\label{sec:Setup}
+\addcontentsline{toc}{section}{Setup}
+
+Download and install the Android Studio IDE.
+
+A provided zipped folder contains all necessary files in order to run and complete this lab. It is recommended that you have 8 GB RAM or more, x86\_64 CPU architecture; 2nd generation Intel Core or newer, or AMD CPU with support for a Windows Hypervisor / ARM-based chips, or 2nd generation Intel Core or newer with support for Hypervisor.Framework, and 9 GB of available disk space minimum or more.
+
+\bigskip
+
+First create your emulated device. With the provided project open, on the right hand side of your screen, click the ‘Device Manager’ tab, and select ‘Create device’. Scroll down and select the ‘Pixel 5’ option.
+
+When choosing your system image, select the second tab that corresponds to your CPU architecture (x86 / ARM). Scroll down and select API 28 for Android 9 Pie. Make sure your application binary interface corresponds to your matching architecture. Lastly, make sure beneath the target column that your system image does not utilize Google API’s or services.
+
+Now that you have created your device, run the device to confirm that it does so successfully. If any issues occur, refer to the Troubleshooting section at the end of this document or consult with Google. You will notice your device will be in a factory-stock state with the default applications installed.
+
+In order to install the necessary applications for this lab, locate the project manager tab on the left side of your IDE. You will have two modules, ‘app’ and ‘raceattack’. Navigate through the hierarchy until you locate the MainActivity.java file. Right click this and select ‘Run `MainActivity.java`’ for each module. You will notice the emulator launches and your application is installed. This will be how you compile your changes to the code. Utilize Figure~\ref{fig:run_main} on page~\pageref{fig:run_main} below for an example.
+
+Lastly, locate the security tab within your settings application on your emulated device and set up a fingerprint + password. First, select an arbitrary password that you will remember. Then, it will prompt you to enter your fingerprint. Navigate to the 3-bullet drop down button for 'Extended controls' directly above your emulated device in your emulator panel. If you do not see a toolbar with this option, click the settings cog in the emulator panel and enable 'Show toolbar'. There will be a tab that says ‘Fingerprint’. Click this and you will find a drop down menu for which fingerprint to use along with a button that says ‘Touch sensor’. Remain on ‘fingerprint 1’ and press the button to set up your fingerprint.
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[scale=0.25]{graphics/run_main.png}
+    \caption{Example of how to find and run 'MainActivity.java'}
+    \label{fig:run_main}
+\end{figure}
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[scale=0.3]{graphics/fingerprint_sensor.png}
+    \caption{Example of fingerprint sensor window}
+    \label{fig:fingerprint_sensor}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Lab Task 1
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Task Set 1: Creating the Attack Application}\label{sec:Task Set 1: Creating the Attack Application}
+\addcontentsline{toc}{section}{Task Set 1: Creating the Attack Application}
+
+\subsection*{Task 1.1: Exploring the Vulnerabilities: Intent Flags}\label{sec:Task-1.1-Exploring-the-Vulnerabilities-Intent-Flags}
+\addcontentsline{toc}{subsection}{Task 1.1: Exploring the Vulnerabilities: Intent Flags}
+
+Here we will cover launching an activity via~\href{https://developer.android.com/training/basics/intents/sending}{View Intents} and set you up for how to perform an injection. In order for us to enlist the race condition within the Activity Lifecycle, the malicious activity must be launched within 100ms of the target activity from starting. Beneath your \emph{raceattack} module, in your \emph{raceattack/MainActivity.java} file, you will notice you are provided a skeleton application with empty functions. For example, you will have an event listener bound to the button enumerated in your \emph{covering.xml} file (found from \emph{res -> layout} beneath your project structure). Once the button is clicked, it calls the \emph{launchAttack()} method. In this \emph{launchAttack()} method, you should create a launch intent for our target application. Take note of the code example below.
+
+\bigskip
+\begin{mdframed}[backgroundcolor=black!10,style=code,nobreak=true,align=center,userdefinedwidth=14cm]
+\ getPackageManager().getLaunchIntentForPackage(victimPkgName);
+\end{mdframed}
+
+Find the package name of the target banking application, create a launch intent using it, and store it within a variable to use later. Once you have done this, it is now time to set flags for the launch intent. If you navigate to the documentation for~\href{https://developer.android.com/reference/android/content/Intent}{Intents}, you can find its properties below; many of which are flags. Flags allow you to control the specific behavior of an Intent and are critical for implementing this attack. The few flags we will be using for our implementation are: 
+\bigskip
+\begin{itemize}
+  \item \emph{Intent.FLAG\_ACTIVITY\_NO\_ANIMATION}
+  \begin{itemize}
+    \item[] This flag will prevent the system from applying an activity transition animation to go to the next activity state.
+  \end{itemize}
+  \item \emph{Intent.FLAG\_ACTIVITY\_NEW\_TASK}
+    \begin{itemize}
+    \item[] This flag makes an activity become the start of a new task on this history stack. It is typically used for launcher style applications.
+  \end{itemize}
+  \item \emph{Intent.FLAG\_ACTIVITY\_MULTIPLE\_TASK}
+    \begin{itemize}
+    \item[] This flag is used to create a new task and launch an activity into it.
+  \end{itemize}
+\end{itemize}
+\bigskip
+
+Flags are just integer codes that tell the program to enable or disable certain features. For us to set the flags, we will call the \emph{setFlags()} method using the dot operator on our previously created Intent variable. We use the bitwise OR operator '|' to set multiple flags to one Intent in a single call. Go ahead and set each one of the  above flags on our intent. Once you have done this, simply call the function \emph{startActivity()} and pass your Intent as an argument. Now, if you run your application and click the button, you should notice the victim application is launched followed by your malicious activity. Reference the figure~\ref{fig:malicious_cover} on page~\pageref{fig:malicious_cover}.
+
+\bigskip
+\begin{mdframed}[backgroundcolor=blue!10,style=code,nobreak=true,align=center,userdefinedwidth=14cm]
+\textbf{Action}
+\bigskip
+
+1.1.1 - Create a launch intent for the victim application, set the necessary flags, and submit a screenshot of your \emph{launchAttack()} function.\\
+1.1.2 - Create a launch intent for the covering activity, set the necessary flags, and submit a screenshot of your \emph{launchCover()} function.\\\end{mdframed}
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[scale=0.275]{graphics/malicious_cover.png}
+    \caption{Example of malicious overlay}
+    \label{fig:malicious_cover}
+\end{figure}
+
+\subsection*{Task 1.2: Input Listener: Necessary Components (Touch Modals)}\label{sec:Task-1.1-Input-Listener-Necessary-Components-Touch-Modals}
+\addcontentsline{toc}{subsection}{Task 1.2: Input Listener: Necessary Components (Touch Modals)}
+
+Now that your malicious app is launched over the victim application, you will now explore how to prevent the physical input listener from pausing when covered with your malicious activity. This section very similarly models the previous one; we will set flags for your malicious activity rather than the launch intent towards the victim application. Navigate to your \emph{CoveringActivity.java} file beneath the \emph{raceattack} module. The \emph{CoveringActivity.java} represents the activity that is launched over the victim application while \emph{MainActivity.java} is simply the handling application. Since this is not a launch intent, we end up setting flags for~\href{https://developer.android.com/reference/android/view/WindowManager.LayoutParams}{WindowManager.LayoutParams}, which as the name explains, is the window manager for our activity. The functionality is very similar, minus a few minor tweaks. First and foremost, the two flags we will be setting for our window are:
+\begin{itemize}
+  \item \emph{WindowManager.LayoutParams.FLAG\_NOT\_TOUCH\_MODAL}
+  \begin{itemize}
+    \item[] This flag allows any pointer events outside of the window to be sent to the windows behind it.
+  \end{itemize}
+  \item \emph{WindowManager.LayoutParams.FLAG\_NOT\_TOUCHABLE}
+  \begin{itemize}
+    \item[] This flag leaves the touch (or ignores it) to be handled by some window below this window (in Z order).
+  \end{itemize}
+\end{itemize}
+\bigskip
+
+In order to set these flags to the entire activity, call the function \emph{getWindow()} and call the \emph{addFlags()} method using the dot operator behind it. The reason we call \emph{addFlags()} is because it \textit{appends} the flag codes rather than replaces them like \emph{setFlags()} does. 
+
+\bigskip
+\begin{mdframed}[backgroundcolor=blue!10,style=code,nobreak=true,align=center,userdefinedwidth=14cm]
+\textbf{Action}
+\bigskip
+
+1.2.1 - Set the flags for your covering activity and submit a screenshot of your code.\\
+\end{mdframed}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Task 2
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Task Set 2: Creating the Overlay}\label{sec:Task Set 2: Creating the Overlay}
+\addcontentsline{toc}{section}{Task Set 2: Creating the Overlay}
+
+\subsection*{Task 2.1: Creating Instance Variable}\label{sec:Task-2.1-Creating-Instance-Variable}
+\addcontentsline{toc}{subsection}{Task 2.1: Creating Instance Variable}
+
+Now that we have a working overlay, we must be able to determine what to place on the screen in order to trick the user into correctly navigating to our target destination. Though the intention of the overlay is to obscure the view of the application beneath, we can determine when the application changes screens based on the triggering of the \textit{onPause()} lifecycle function.
+
+To do so, we will create a global instance variable, wrapped in its own class, in order to keep track of each time we navigate to a different section of the application. Right click the \emph{raceattack} folder (not the module) containing all of your classes, and select 'New > Java Class'. You can name this arbitrarily. Create an instance variable \emph{screenCount} that is equal to 0, as well as an object of this class within the class's instance variables. 
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[scale=0.35]{graphics/java_class.png}
+    \caption{Example of malicious overlay}
+    \label{fig:java_class}
+\end{figure}
+
+\bigskip
+
+Now create a static public method that returns your class type called \\\emph{getInstance()}. This method should check to see if your previously created class object is null; if so, it sets instance to a new object, otherwise it simply returns the existing object.
+
+\bigskip
+
+Navigate back to your \emph{CoveringActivity.java} class. You will notice that one of your provided functions is an overridden \emph{onPause()}. This is where you will keep track of the screen count by simply calling your instanced variable \emph{screenCount}. To validate this works, follow the example code below to print to the console to ensure that it is working.
+
+\bigskip
+\begin{mdframed}[backgroundcolor=black!10,style=code,nobreak=true,align=center,userdefinedwidth=14cm]
+\ Log.d("screenCount: ", GlobalVariable.getInstance().screenCount);
+\end{mdframed}
+\bigskip
+
+If all is working, you may proceed to the following section.
+
+\bigskip
+\begin{mdframed}[backgroundcolor=blue!10,style=code,nobreak=true,align=center,userdefinedwidth=14cm]
+\textbf{Action}
+\bigskip
+
+2.1.1 - Create a class and a global variable to keep track of the number of screen transitions, and submit a screenshot of your code.\\
+2.1.2 - Update the \textit{onPause()} function in \textit{CoveringActivity.java} to increment and log the \textit{screenCount} variable.\\
+\end{mdframed}
+
+\subsection*{Task 2.2: Creating Overlay}\label{sec:Task-2.2-Creating-Overlay}
+\addcontentsline{toc}{subsection}{Task 2.2: Creating Overlay}
+
+In your project window on the left-hand side, navigate to your 'res' package, and open the folder 'layout'. Beneath this, you will find your \emph{covering.xml} file. Once you open this, you will notice in the top right corner of your viewport that you have the option to change between your code and the design viewport. Here is where you will implement any respective buttons, input fields, or images to match the log-in page from the target application as much as possible. You will notice that you have a skeleton outline for a few primitive operations to get you started on utilizing these features, but any additional features or solutions can be found on the~\href{https://developer.android.com/develop/ui}{Android Studio UI documentation}.
+
+\bigskip
+
+Now that you have a malicious application set up, it is your job to create a series of prompts that tricks the user into navigating through the application. If you explore the victim application, you will notice that it takes on the form of a student banking application. The app is kept rudimentary and only certain buttons contain functionality. The proper path to take is \emph{Transfer \& Pay -> Send with Buster -> Malicious Mallory (the greyed out option)}, and then from there you are to select an account and corresponding amount of money to take from the user. Once you click ’Send with Buster’, the application will load you to a fingerprint authorization screen, at which point you will encourage the user to enter their fingerprint. You will notice that your \emph{covering.xml} file contains some basic properties to help you get started, but it is up to you to create the entire overlay.
+
+\bigskip
+
+You will need to create a separate overlay for each part of the application you navigate to and change whats visible each time the screen changes. The encouraged way to implement this is by creating a section for each screen and giving it an id. Once you have done this, you will be able to toggle the visibility of each screen based on the count of your \emph{screenCount} instance variable that you created in the previous step. Create a switch case within your \emph{CoveringActivity.java} class based on \emph{screenCount} and toggle the visibility for each respective layout based on that. You can do this by mimicing the code below:
+
+\bigskip
+\begin{mdframed}[backgroundcolor=black!10,style=code,nobreak=true,align=center,userdefinedwidth=14cm]
+\ findViewById(R.id.layout1).setVisibility(View.GONE);
+\end{mdframed}
+\bigskip
+
+It might be preferrable to store each individual layout in a variable.
+
+\bigskip
+
+Because we can not determine what screen is being viewed on the application below from a zero-permission standpoint, the design is very fickle. Your overlay will only work if you successfully deceive the user into following your prompts, and otherwise will not work as intended. You are encouraged to use images, animations, timers, and any other method that will increase the effectiveness of your overlay. Create an overlay up until the final page for authorization.
+
+\bigskip
+\begin{mdframed}[backgroundcolor=blue!10,style=code,nobreak=true,align=center,userdefinedwidth=14cm]
+\textbf{Action}
+\bigskip
+
+2.2.1 - Create your navigational overlay and submit 3 screenshots from different sections of the page. 
+
+\bigskip
+\end{mdframed}
+\bigskip
+
+Lastly, once you reach the authorization screen, you will notice that if you do not use the correct fingerprint or cancel the input listener, the authorization will fail. Test yourself by utilizing fingerprint 1 and fingerprint 2 on the page. For this section, the most practical way to trick a user into inputting their fingerprint is by mimicking a lock-screen. 
+
+\bigskip
+\begin{mdframed}[backgroundcolor=blue!10,style=code,nobreak=true,align=center,userdefinedwidth=14cm]
+\textbf{Action}
+\bigskip
+
+2.2.2 - Create a fake lock-screen for the final destination of your overlay and submit a screenshot.
+
+\bigskip
+\end{mdframed}
+\bigskip
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Lab Task 3
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\break
+
+\section*{Task Set 3: Game Theory}\label{sec:Task 1: Game Theory}
+\addcontentsline{toc}{section}{Task Set 3: Game Theory}
+\vspace{-0.35cm}
+{\footnotesize Video: \href{https://www.youtube.com/watch?v=h3JQYd4BFGk}{\emph{Semi-Separating Equilibrium / Partially-Pooling Equilibrium by Willian Spaniel on YouTube}}}
+\bigskip
+
+
+Here in our last task set, we are going to explore a context and related game theory tree that will help us understand adversarial thinking between a developer and an attacker.
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[scale=0.75]{graphics/PHY-game-theory-table.png}
+    \caption{Game theory tree}
+    \label{fig:game-theory-table}
+\end{figure}
+
+Through this game theory tree, our intention will be to find the pooling equilibrium and each players mixed strategy. The context goes as follows: An app has a 75\% chance of being robust, and a 25\% chance of being vulnerable. Player 1 (the attacker, colored in blue) decides whether or not to attack the user. The attack would be similar to our implementation, such as prompting the user to input physical touch. Player 2 (colored in red) is the user, and can decide to use (or follow) the prompt given by the attacker, or can simply ignore it. The thing is - if the user follows the attackers prompt while the app is robust, it will trigger a security flag and the attack will completely fall apart. However, if the user ignores it, the user fails to identify a malicious app on their device and provides player 1 the option of monitoring state information, thus still losing overall. If player 1 attacks a vulnerable app, regardless of player 2’s choice, player 1 will profit. Therefore, player 1 will always choose to attack.
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[scale=0.75]{graphics/PHY-game-theory-tree-v2.png}
+    \caption{Player 1's profitable deviation}
+    \label{fig:game-theory-tree-v2}
+\end{figure}
+
+This allows us to remove this section of the game theory tree, as we have identified that player 1 (who makes the first move) will never choose to not attack when the app is vulnerable. Now let’s consider player 2 to be an informed developer who is trying to test the security of their device and the API’s that it runs on. Let’s calculate player 2’s pooling strategy. Use the following formula below, where R signifies the probability that an app is robust, and V signifies the probability that the app is vulnerable:
+
+$$ u(p2\_ignore) = R(p2\_ignore) + V(p2\_ignore) $$
+$$ u(p2\_use) = R(p2\_use) + V(p2\_use) $$
+
+Given player 2's pooling strategy, does player 1 have a profitable deviation? It does, because now the bluff of attacking a seemingly robust app backfires, because player 1 could stick with 0 for not attacking compared to the expected -3 if they did attack. This means we can not find any equilibria given the current information. The strategy must mix. In our game, its impossible to play a pure strategy, therefore it must mix. 
+\bigskip
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[scale=0.75]{graphics/PHY-tree-with-vars.png}
+    \caption{Mixed strategy tree}
+    \label{fig:tree-with-vars}
+\end{figure}
+
+Using this tree, we will calculate player 2's mixed strategy. To make an attack on a robust app indifferent, player 2 must mix between using and ignoring the prompt. We must calculate the utility based on player 1 attacking and their expected utility from each decision. Using indifference conditions, we can do this with the following formula:
+
+$$ u(p1\_attack) = \sigma_R(p1\_use) + (1 - \sigma_R)(p1\_ignore) $$
+
+We only calculate the probability for player 1's attack because if they do not attack, both players receive a utility of 0. If you work out the math, you will be left with the value of $\sigma_R$, which equals the probability that player 2 should use the app and is player 2's equilibrium strategy. But this outcome only benefits player 2 when the app is robust, therefore we need to be able to calculate player 2's belief that the app is vulnerable. Player 2's belief is represented by the variable P, and can be calculated by the following formula:
+
+$$ u(p2\_ignore) = P(p2\_ignore) + (1 - P)(p2\_ignore) $$
+$$ u(p2\_use) = P(p2\_use) + (1 - P)(p2\_use) $$
+
+Work out the math and find the value for the variable P. This represents the portion of the time that player 2's belief is that they are facing an attack against a vulnerable app. From here, the last thing we need to do is use Bayes' rule in a non-trivial way for us to find a perfect Bayesian equilibrium. We are looking for the robust types mixed strategy that results in a value exactly equal to P found in the previous step. This can be done with the following formula:
+
+$$ P = \frac{(0.25)(1)}{(0.25)(1) + (0.75) (\sigma_A)} $$
+
+Add in your value for P and solve for $\sigma_A$ which represents player 1's probability that the app is robust and they attack. 
+
+To recap:
+    \begin{itemize}
+        \item Player 1 attacks a robust app with a probability of $\sigma_A$
+        \item After observing player 1 attack, player 2 believes that the app is vulnerable with a probability of P
+        \item Player 2 then uses the app with a probability of $\sigma_R$
+    \end{itemize}
+
+\bigskip
+\bigskip
+\bigskip
+
+\begin{mdframed}[backgroundcolor=blue!10,style=code,nobreak=true,align=center,userdefinedwidth=14cm]
+
+\textbf{Action}
+\bigskip
+
+3.1.1 - Calculate player 2's pooling equilibrium; which strategy profitably deviates?\\
+3.1.2 - Calculate the value of $\sigma_R$, which represents player 2's mixed equilibrium strategy. What is the probability that player 2 uses the app?\\
+3.1.3 - Calculate the value of P, which represents player 2's belief that they are facing a vulnerable app. What is this probability?\\
+3.1.4 - Calculate the value of $\sigma_A$, which represents the probability that the app is robust and player 1 chooses to attack.\\
+\end{mdframed}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Submission
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Submission}\label{sec:Submission}
+\addcontentsline{toc}{section}{Submission}
+
+Submit a lab report utilizing the provided template to your instructor, which should include screenshots, thoughts, challenges, and lessons learned from the lab. Furthermore, zip and attach your project files with the relevant java files for submission.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Summary
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Summary}\label{sec:Summary}
+\addcontentsline{toc}{section}{Summary}
+
+Many mobile apps use these physical interfaces to receive user-input for authentication/authorization operations including one-click login, fingerprint-based payment approval, and face/voice unlocking. Our focus on this lab was to mislead an unsuspecting user with a zero-permission malicious application to feed screen-touch and fingerprint input in order to unintentionally authorize a fund-transfer. Furthermore, we explored some conventional design patterns that led to increased security risks regarding these types of attacks.
+
+\section*{Trouble Shooting}\label{sec:Trouble Shooting}
+\addcontentsline{toc}{section}{Trouble Shooting}
+    
+\subsection*{Refactoring the Project Name}
+\addcontentsline{toc}{subsection}{Refactoring the Project Name}
+
+• Make sure you change the respective lines within build.gradle and AndroidManifest.xml to match what you refactored your project to. Then, select File->Invalidate Caches->Restart, and your project should rebuild with the correct dependencies. If this does not work, you can select Build->Clean Project and Build->Rebuild Project and then retry invalidating the caches. This will fully correct your problem.
+
+\subsection*{Images: 'Trying to render too large of a bitmap' error}
+\addcontentsline{toc}{subsection}{Images: 'Trying to render too large of a bitmap' error}
+
+ • Scroll down to your ‘res’ folder, right click, and create new Android Resource Folder. Select the dropdown and click ‘Drawable’. In the navigator pane on the bottom left, scroll down and select ‘Density’. This will create a ‘Drawable-xxxhdpi’ folder. Now, navigate to your drawable in the ‘Resource Manager’, right click, and move the file into that newly created folder. If this does not work, delete your image, reupload it, and before importing it change its version to ‘UI Mode’. Repeat the previous process and everything should work as intended.
+
+\bibliography{References}
+\bibliographystyle{plain}
+
+\end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

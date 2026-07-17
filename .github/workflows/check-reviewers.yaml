@@ -1,0 +1,81 @@
+name: Check Approved Reviewer
+
+on:
+  pull_request_review:
+    types:
+      - submitted
+      - dismissed
+      - edited
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  check-reviewer:
+    runs-on: ubuntu-latest
+
+    env:
+      VALID_REVIEWERS: |
+        Dylan-Gresham
+        ISPM-Research-Lab
+
+    steps:
+      - name: Verify an approved reviewer has reviewed
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const validReviewers = process.env.VALID_REVIEWERS
+              .split("\n")
+              .map(s => s.trim().toLowerCase())
+              .filter(Boolean);
+
+            const { owner, repo } = context.repo;
+            const pull_number = context.payload.pull_request.number;
+
+            // Fetch all reviews for the PR
+            const reviews = await github.paginate(
+              github.rest.pulls.listReviews,
+              {
+                owner,
+                repo,
+                pull_number,
+                per_page: 100,
+              }
+            );
+
+            // Unique reviewers who have submitted at least one review
+            const reviewers = [
+              ...new Set(
+                reviews
+                  .filter(r => r.state === "APPROVED")
+                  .map(r => r.user?.login?.toLowerCase())
+                  .filter(Boolean)
+              ),
+            ];
+
+            console.log("Valid reviewers:", validReviewers);
+            console.log("Reviewers who have submitted reviews:", reviewers);
+
+            const matchingReviewer = reviewers.find(r =>
+              validReviewers.includes(r)
+            );
+
+            if (matchingReviewer) {
+              console.log(`Found valid reviewer: ${matchingReviewer}`);
+              return;
+            }
+
+            core.setFailed(
+              [
+                "No review has been submitted by an approved reviewer.",
+                `Approved reviewers: ${validReviewers.join(", ")}`,
+                `Reviewers found: ${reviewers.join(", ") || "(none)"}`,
+              ].join("\n")
+            );

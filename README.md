@@ -19,3 +19,5 @@ The goal of the BEACON project is to respond to an enormous cybersecurity workfo
 #### [Mobile Security](/Mobile%20Security/)
 
 #### [Web Security](/Web%20Security/)
+
+## License

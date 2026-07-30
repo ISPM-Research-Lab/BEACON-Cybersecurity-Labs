@@ -17,7 +17,6 @@ The objective of this lab is to identify the different types of reflection based
     - [Java Program](/Network%20Security/Middlebox%20Amplification%20Attack/Student%20Lab%20Materials/TCPAmplificationAttackLab.java)
     - [Report Template](/Network%20Security/Middlebox%20Amplification%20Attack/Student%20Lab%20Materials/Lab_Report_Template.docx)
 - [Instructor Lab Materials](/Network%20Security/Middlebox%20Amplification%20Attack/Instructor%20Lab%20Materials):
-    - Planning to use this lab in your class? Please fill out the [form](https://github.com/ISPM-Research-Lab/BEACON-Cybersecurity-Labs)
     - [Instructor Manual](/Network%20Security/Middlebox%20Amplification%20Attack/Instructor%20Lab%20Materials/Instructor_Lab_Report.docx)
     - [LaTeX Project](/Network%20Security/Middlebox%20Amplification%20Attack/Instructor%20Lab%20Materials/LaTeX)
 - [Auxiliary Learning Materials](/Network%20Security/Middlebox%20Amplification%20Attack/Auxiliary%20Materials):
